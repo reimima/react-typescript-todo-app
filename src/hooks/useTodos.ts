@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import type { DisplayFilter, TodoType } from '@/types';
 
@@ -25,18 +25,18 @@ export const useTodos = () => {
 
 	const [filter, setFilter] = useState<DisplayFilter>('all');
 
-	const changeFilter = (_new: DisplayFilter) => {
+	const changeFilter = useCallback((_new: DisplayFilter) => {
 		setFilter(_new);
-	};
+	}, []);
 
-	const addTodo = (text: string) => {
+	const addTodo = useCallback((text: string) => {
 		setTodos(prevTodos => [
 			...prevTodos,
 			{ id: uuidv4(), text, completed: false, removed: false },
 		]);
-	};
+	}, []);
 
-	const deleteTodo = (id: string) => {
+	const deleteTodo = useCallback((id: string) => {
 		setTodos(prevTodos => {
 			const target = prevTodos.find(t => t.id === id);
 			if (target) {
@@ -48,17 +48,17 @@ export const useTodos = () => {
 
 			return prevTodos.filter(t => t.id !== id);
 		});
-	};
+	}, []);
 
-	const toggleTodo = (id: string) => {
+	const toggleTodo = useCallback((id: string) => {
 		setTodos(prevTodos =>
 			prevTodos.map(todo =>
 				todo.id === id ? { ...todo, completed: !todo.completed } : todo,
 			),
 		);
-	};
+	}, []);
 
-	const restoreTodo = (id: string) => {
+	const restoreTodo = useCallback((id: string) => {
 		setDeletedTodos(prevDeleted => {
 			const target = prevDeleted.find(t => t.id === id);
 			if (target) {
@@ -70,15 +70,18 @@ export const useTodos = () => {
 
 			return prevDeleted.filter(t => t.id !== id);
 		});
-	};
+	}, []);
 
-	const actions = {
-		addTodo,
-		deleteTodo,
-		toggleTodo,
-		restoreTodo,
-		changeFilter,
-	};
+	const actions = useMemo(
+		() => ({
+			addTodo,
+			deleteTodo,
+			toggleTodo,
+			restoreTodo,
+			changeFilter,
+		}),
+		[addTodo, deleteTodo, toggleTodo, restoreTodo, changeFilter],
+	);
 
 	return {
 		todos,

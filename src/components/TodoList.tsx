@@ -6,6 +6,7 @@ import { Todo } from './Todo';
 export const TodoList = () => {
 	const { todos, deletedTodos, filter } = useTodoState();
 
+	// stateが変わるときは必ず計算されるため、memo化する意味がない
 	const displayTodos = (() => {
 		switch (filter) {
 			case 'deleted':

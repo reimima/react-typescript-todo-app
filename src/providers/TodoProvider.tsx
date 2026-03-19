@@ -33,6 +33,7 @@ export const useTodoDispatch = () => {
 export const TodoProvider = ({ children }: { children: ReactNode }) => {
 	const { todos, deletedTodos, filter, actions } = useTodos();
 
+	// actionsはstateに依存しているため、stateはmemo化する意味がない
 	const stateValue = { todos, deletedTodos, filter };
 
 	return (

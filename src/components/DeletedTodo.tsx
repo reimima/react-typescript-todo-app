@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { useTodoDispatch } from '@/providers';
 import type { TodoType } from '@/types';
 import { todoCss } from './components.css';
 
-export const DeletedTodo = ({ todo }: { todo: TodoType }) => {
+export const DeletedTodo = memo(({ todo }: { todo: TodoType }) => {
 	const { restoreTodo } = useTodoDispatch();
 
 	return (
@@ -15,4 +16,4 @@ export const DeletedTodo = ({ todo }: { todo: TodoType }) => {
 			</button>
 		</li>
 	);
-};
+});

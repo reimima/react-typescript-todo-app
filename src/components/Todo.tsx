@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { useTodoDispatch } from '@/providers';
 import type { TodoType } from '@/types';
 import { todoCss } from './components.css';
 
-export const Todo = ({ todo }: { todo: TodoType }) => {
+export const Todo = memo(({ todo }: { todo: TodoType }) => {
 	const { toggleTodo, deleteTodo } = useTodoDispatch();
 
 	return (
@@ -24,4 +25,4 @@ export const Todo = ({ todo }: { todo: TodoType }) => {
 			</button>
 		</li>
 	);
-};
+});
