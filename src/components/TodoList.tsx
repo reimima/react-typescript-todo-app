@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useTodoState } from '@/providers';
 import { todoCss } from './components.css';
 import { DeletedTodo } from './DeletedTodo';
@@ -7,7 +6,7 @@ import { Todo } from './Todo';
 export const TodoList = () => {
 	const { todos, deletedTodos, filter } = useTodoState();
 
-	const displayTodos = useMemo(() => {
+	const displayTodos = (() => {
 		switch (filter) {
 			case 'deleted':
 				return deletedTodos;
@@ -21,7 +20,7 @@ export const TodoList = () => {
 			default:
 				return todos;
 		}
-	}, [todos, deletedTodos, filter]);
+	})();
 
 	return (
 		<ul className={todoCss.list}>

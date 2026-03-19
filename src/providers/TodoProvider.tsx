@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useContext, useMemo } from 'react';
+import { createContext, type ReactNode, useContext } from 'react';
 import { useTodos } from '@/hooks';
 import type { DisplayFilter, TodoType } from '@/types';
 
@@ -33,10 +33,7 @@ export const useTodoDispatch = () => {
 export const TodoProvider = ({ children }: { children: ReactNode }) => {
 	const { todos, deletedTodos, filter, actions } = useTodos();
 
-	const stateValue = useMemo(
-		() => ({ todos, deletedTodos, filter }),
-		[todos, deletedTodos, filter],
-	);
+	const stateValue = { todos, deletedTodos, filter };
 
 	return (
 		<TodoStateContext value={stateValue}>
