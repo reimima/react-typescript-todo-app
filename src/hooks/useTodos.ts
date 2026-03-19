@@ -38,14 +38,15 @@ export const useTodos = () => {
 
 	const deleteTodo = useCallback((id: string) => {
 		setTodos(prevTodos => {
-			const target = prevTodos.find(todo => todo.id === id);
-			if (!target) return prevTodos;
+			const target = prevTodos.find(t => t.id === id);
+			if (target) {
+				setDeletedTodos(prevDeleted => {
+					if (prevDeleted.some(t => t.id === id)) return prevDeleted;
+					return [{ ...target, removed: true }, ...prevDeleted];
+				});
+			}
 
-			setDeletedTodos(prevDeletedTodos => [
-				{ ...target, removed: true },
-				...prevDeletedTodos,
-			]);
-			return prevTodos.filter(todo => todo.id !== id);
+			return prevTodos.filter(t => t.id !== id);
 		});
 	}, []);
 
@@ -58,12 +59,16 @@ export const useTodos = () => {
 	}, []);
 
 	const restoreTodo = useCallback((id: string) => {
-		setDeletedTodos(prevDeletedTodos => {
-			const target = prevDeletedTodos.find(todo => todo.id === id);
-			if (!target) return prevDeletedTodos;
+		setDeletedTodos(prevDeleted => {
+			const target = prevDeleted.find(t => t.id === id);
+			if (target) {
+				setTodos(prevTodos => {
+					if (prevTodos.some(t => t.id === id)) return prevTodos;
+					return [...prevTodos, { ...target, removed: false }];
+				});
+			}
 
-			setTodos(prevTodos => [...prevTodos, { ...target, removed: false }]);
-			return prevDeletedTodos.filter(todo => todo.id !== id);
+			return prevDeleted.filter(t => t.id !== id);
 		});
 	}, []);
 
