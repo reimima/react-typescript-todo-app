@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import type { DisplayFilter, TodoType } from '@/types';
+import type { DisplayFilter, TodoOptions, TodoType } from '@/types';
 
 export const useTodos = () => {
 	const [todos, setTodos] = useState<TodoType[]>(() => {
@@ -29,10 +29,10 @@ export const useTodos = () => {
 		setFilter(_new);
 	}, []);
 
-	const addTodo = useCallback((text: string) => {
+	const addTodo = useCallback((text: string, options: TodoOptions) => {
 		setTodos(prevTodos => [
 			...prevTodos,
-			{ id: uuidv4(), text, completed: false, removed: false },
+			{ id: uuidv4(), text, completed: false, removed: false, options },
 		]);
 	}, []);
 

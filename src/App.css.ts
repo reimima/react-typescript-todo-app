@@ -22,6 +22,7 @@ export const headerCss = {
 };
 
 export const containerCss = style({
+	minWidth: '600px',
 	maxWidth: '600px',
 	width: '100%',
 	margin: '0 auto',

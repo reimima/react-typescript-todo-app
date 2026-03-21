@@ -3,4 +3,11 @@ export type TodoType = {
 	text: string;
 	completed: boolean;
 	removed: boolean;
+	options: TodoOptions;
+};
+
+export type TodoOptions = {
+	description: string;
+	deadline: string;
+	priority: 'low' | 'medium' | 'high';
 };
